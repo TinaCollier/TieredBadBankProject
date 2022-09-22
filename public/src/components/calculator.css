@@ -1,0 +1,59 @@
+button:focus {
+    outline: 0;
+  }
+  
+  body {
+    font-family: "Roboto", sans-serif;
+  }
+  
+  .calculator {
+    width: 240px;
+    
+    border-radius: 6px 6px 0px 0px;
+    background: rgba(33, 28, 2, 0.763);
+  }
+  
+  #output {
+    height: 80px;
+    width: 240px;
+    background-color: black;
+    color: white;
+    display: table;
+    border-radius: 6px 6px 0px 0px;
+  }
+  
+  #output-text {
+    text-align: right;
+    font-size: 45pt;
+    height: 80px;
+    line-height: 80px;
+    width: 230px;
+    margin: 0;
+    padding: 14px 5px 14px 5px;
+    overflow: hidden;
+    text-overflow: clip;
+  }
+  
+  #buttons {
+
+  }
+  
+  .button {
+    background-color: #cdc5d6;
+    display: inline-block;
+    border: solid 1px grey;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    font-size: 15pt;
+  }
+  
+  .operator-btn {
+    background-color: #611131;
+    color: white;
+    border-color: black;
+  }
+  
+  #zero-btn {
+    width: 120px;
+  }
