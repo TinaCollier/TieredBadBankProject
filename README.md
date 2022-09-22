@@ -15,4 +15,4 @@ I added a Calculator Page and a current News Page. This went beyond the paramete
 ## MIT License
 Please see attached License
 
-![BadBank Image](src/pages/images/badbank.png)
+![BadBank Image](public/src/pages/images/badbank.png)
