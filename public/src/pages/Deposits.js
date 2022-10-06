@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import UserContext from "../components/UserContext";
-import AccountContext from "../components/AccountContext";
 import { useNavigate } from "react-router-dom";
 import { 
     Card, 
@@ -10,34 +9,45 @@ import {
 } from "reactstrap";
 
 function Deposit() {
-    const context = useContext(UserContext);
-    const accountContext = useContext(AccountContext);
-    const [ transaction, setTransaction ] = useState({});
-    const [ deposit, setDeposit ] = useState(0);
-    const [ total, setTotal ] = useState(context.balance);
-    const [ error, setError ] = useState('');
+    const context = useContext( UserContext );
+    const [ transaction, setTransaction ] = useState( {} );
+    const [ deposit, setDeposit ] = useState( 0 );
+    const [ total, setTotal ] = useState( context.balance );
+    const [ error, setError ] = useState( '' );
     const navigate = useNavigate();
-
 
     const handleSubmit = event => {
         event.preventDefault();
         let newTotal = total + deposit;
-        setTotal(newTotal);   
+        setTotal( newTotal );   
     }
 
     const handleChange = event => {
         const input = event.target.value;
-        if (isNaN(input)) {
-            setError('Please input a valid number')
+        if ( isNaN( input ) ) {
+            setError( 'Please input a valid number' )
         } else { 
-            setDeposit(Number(input)); 
+            setDeposit( Number( input ) ); 
         }
     }
 
+    // update account balance in mongodb
     const updateAccountBalance = () => {
-        accountContext.accounts.find(account => {
-            account.id === context.id ? account.balance = total : console.log('no account');
-        });
+        
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify( {
+                email: context.email,
+                amount: total,
+            } )
+          };
+
+        fetch( 'http://localhost:4000/updatebalance', requestOptions)
+        .then( response => response.json() )
+        .then( data => {
+            console.log( `Previous balance updated from $${ data.value.balance } to $${ context.balance }` )
+        } );
     }
 
     useEffect (() => {
@@ -48,8 +58,8 @@ function Deposit() {
         updateAccountBalance();
         const thisTransaction = { name: context.name, ts: new Date().getTime(), type: 'Deposit', amount: deposit };
         context.transactionHistory.push( thisTransaction );
-        navigate('/success')
-    }, [total])
+        navigate( '/success' )
+    }, [ total ])
 
     return (
         <Card 
@@ -59,7 +69,7 @@ function Deposit() {
         }}
       >
 
-        <CardHeader>Account Balance: <br/>${total}</CardHeader>
+        <CardHeader>Account Balance: <br/>${ total }</CardHeader>
         <CardBody>
         <form onSubmit={ handleSubmit }>
                 <p>Please input your deposit amount and click submit!</p>
@@ -72,7 +82,7 @@ function Deposit() {
                 onChange={ handleChange }
                 ></input>
                 <div className="error">{ error }</div>
-                <Button disabled={ !deposit ? true : false}>Submit</Button>
+                <Button disabled={ !deposit ? true : false }>Submit</Button>
             </form>
 
         </CardBody>

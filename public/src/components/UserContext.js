@@ -7,7 +7,7 @@ const user = {
   password: '',
   balance: 0,
   transactionHistory: [],
-  loggedin: false
+  loggedIn: false
 };
 
 const UserContext = createContext(user);

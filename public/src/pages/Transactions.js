@@ -10,10 +10,10 @@ import {
  } from 'reactstrap';
 
 function Transactions() {
-    const context = useContext(UserContext);
+    const context = useContext( UserContext );
     const renderTable = () => {
-        return context.transactionHistory.map((transaction, index) => {
-            const { ts, name, type, amount} = transaction;
+        return context.transactionHistory.map( ( transaction, index ) => {
+            const { ts, name, type, amount } = transaction;
             return (
                 <tr key={ts}>
                     <th scope="row">{name}</th>
@@ -22,7 +22,7 @@ function Transactions() {
                     <td>${amount}</td>
                 </tr>
             )
-        })
+        } )
     }
     
  
@@ -49,10 +49,10 @@ function Transactions() {
                     </thead>
                     <tbody>
 
-                        {renderTable()}
+                        { renderTable() }
                     </tbody>
                 </Table>
-            <CardFooter>Current Account Balance ${context.balance}</CardFooter>
+            <CardFooter>Current Account Balance ${ context.balance }</CardFooter>
         </Card> 
     </Col>
     )

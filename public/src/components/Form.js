@@ -5,55 +5,48 @@ import validate from './LoginValidation';
 import { useNavigate } from "react-router-dom";
 import { Button } from 'reactstrap';
 import UserContext from './UserContext';
-import AccountContext from './AccountContext';
+
 
 const Form = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isDisabled, setIsDisabled] = useState(false);
+
   const navigate = useNavigate();
-  const context = useContext(UserContext);
-  const accountContext = useContext(AccountContext)
-  let newUser;
-  const [data, setData] = React.useState([]);
+  const { name, setId, setName, setEmail, setPassword, setTransactionHistory, setBalance, setLoggedIn } = useContext( UserContext );
 
   const {
     values,
     errors,
     handleChange,
     handleSubmit,
-  } = useForm(login, validate);
+  } = useForm( login, validate );
 
   function login() {
-    console.log('No errors, submit callback called!');
-    navigate('/newaccount');
-    newUser = context;
-    accountContext.accounts.push(JSON.parse(JSON.stringify(newUser)))
-    console.log(accountContext)
+    console.log( 'No errors, submit callback called!' );
+    navigate( '/newaccount' );
   }
 
   function handleCreate() {
-    console.log( values.name, values.email, values.password);
-    setName(values.name);
-    setEmail(values.email);
-    setPassword(values.password);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      } )
+    };
+
+    fetch( 'http://localhost:4000/user/create', requestOptions)
+      .then( response => response.json() )
+      .then( data => {
+        console.log( data );
+        setId( data.id );
+        setName( data.name );
+        setEmail( data.email );
+        setPassword( data.password );
+      } );  
+      setLoggedIn(true);
   }
 
-  useEffect(() => {
-    if (name !== '' && password.length > 7){
-    console.log(`Account Created for ${name}`);
-    context.id = new Date().valueOf();
-    context.name = name;
-    context.email = email;
-    context.password = password;
-    context.balance = 100;
-    context.transactionHistory = [];
-    context.loggedin = true;
-  };
-
-  }, [name]
-  )
 
   return (
     <div className="section is-fullheight" >
@@ -66,7 +59,7 @@ const Form = () => {
                 <div className="control">
                   <input 
                   autoComplete="off" 
-                  className={ `input ${errors.name && 'is-danger'}` } 
+                  className={ `input ${ errors.name && 'is-danger' }` } 
                   type="name" 
                   name="name" 
                   onChange={ handleChange } 
@@ -84,7 +77,7 @@ const Form = () => {
                 <div className="control">
                   <input 
                   autoComplete="off" 
-                  className={ `input ${errors.email && 'is-danger'}` } 
+                  className={ `input ${ errors.email && 'is-danger' }` } 
                   type="email" 
                   name="email" 
                   onChange={ handleChange } 
@@ -101,8 +94,8 @@ const Form = () => {
                 <label className="label">Password</label>
                 <div className="control">
                   <input 
-                  className={ `input ${errors.password && 'is-danger'}` } 
-                  type="password" 
+                  className={ `input ${ errors.password && 'is-danger' }` } 
+                  type="password" x
                   name="password" 
                   onChange={ handleChange } 
                   value={ values.password || '' } 

@@ -3,9 +3,9 @@ import { Button } from 'reactstrap';
 
 
 
-async function searchNews(q) {
-    q = encodeURIComponent(q);
-    const response = await fetch(`https://bing-news-search1.p.rapidapi.com/news/search?freshness&count=25&Day&textFormat=Raw&safeSearch=Strict&q=${q}`, {
+async function searchNews( q ) {
+    q = encodeURIComponent( q );
+    const response = await fetch( `https://bing-news-search1.p.rapidapi.com/news/search?freshness&count=25&Day&textFormat=Raw&safeSearch=Strict&q=${q}` , {
       "method": "GET",
       "headers": {
         "x-rapidapi-host": "bing-news-search1.p.rapidapi.com",
@@ -18,34 +18,34 @@ async function searchNews(q) {
   }
 
 function Item({ item }) {
-    const separateWords = s => s.replace(/[A-Z][a-z]+/g, '$& ').trim();
-    const formatDate = s => new Date(s).toLocaleDateString(undefined, { dateStyle: 'long' });
+    const separateWords = s => s.replace( /[A-Z][a-z]+/g, '$& ' ).trim();
+    const formatDate = s => new Date(s).toLocaleDateString( undefined, { dateStyle: 'long' } );
     
     return (
         <li className="item">
         <h2 className="title">
-            {item.image &&
+            { item.image &&
             <img className="thumbnail"
             alt=""
-            src={item.image?.thumbnail?.contentUrl}
+            src={ item.image?.thumbnail?.contentUrl }
             />
             }
-            <a href={item.url} target="_blank">{item.name}</a>
+            <a href={ item.url } target="_blank">{ item.name }</a>
         </h2>
 
         <div className="meta">
-            <span>{formatDate(item.datePublished)}</span>
+            <span>{ formatDate( item.datePublished ) }</span>
             <span className="provider">
-            {item.provider[0].image?.thumbnail &&
+            { item.provider[ 0 ].image?.thumbnail &&
                 <img className="provider-thumbnail"
                 alt=""
-                src={item.provider[0].image.thumbnail.contentUrl + '&w=16&h=16'}
+                src={ item.provider[ 0 ].image.thumbnail.contentUrl + '&w=16&h=16' }
             />
             }
-            {item.provider[0].name}
+            { item.provider[ 0 ].name }
             </span>
-            {item.category &&
-            <span>{separateWords(item.category)}</span>
+            { item.category &&
+            <span>{ separateWords( item.category ) }</span>
             }
         </div>
     </li>
@@ -54,10 +54,10 @@ function Item({ item }) {
 
 const Pagination = ({ list, pageSize, onPageChange }) => {
 
-    if (list.length <= 1) return null;
-    let num = Math.ceil(list.length / pageSize);
-    let pages = range(1, num);
-    const items = pages.map(page => {
+    if ( list.length <= 1 ) return null;
+    let num = Math.ceil( list.length / pageSize );
+    let pages = range( 1, num );
+    const items = pages.map( page => {
       return (
         <Button key={ page } onClick={ onPageChange } className="page-item" id="paginationButton">
           { page }
@@ -71,37 +71,37 @@ const Pagination = ({ list, pageSize, onPageChange }) => {
     );
   };
 
-const range = (start, end) => {
-    return Array(end - start + 1)
-      .fill(0)
-      .map((item, i) => start + i);
+const range = ( start, end ) => {
+    return Array( end - start + 1 )
+      .fill( 0 )
+      .map(( item, i ) => start + i );
 };
 
-function paginate(list, pageNumber, pageSize) {
-    const start = (pageNumber - 1) * pageSize;
-    let page = list.slice(start, start + pageSize);
+function paginate( list, pageNumber, pageSize ) {
+    const start = ( pageNumber - 1 ) * pageSize;
+    let page = list.slice( start, start + pageSize );
     return page;
 }
 
 const NewsSearch = () => {
-    const [query, setQuery] = useState('finance');
-    const [list, setList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [ query, setQuery ] = useState( 'finance' );
+    const [ list, setList ] = useState( [] );
+    const [ currentPage, setCurrentPage ] = useState( 1 );
     const pageSize = 5;
 
-    const search = (e) => {
+    const search = ( e ) => {
         e.preventDefault();
-        searchNews(query).then(setList);
+        searchNews( query ).then( setList );
     };
     
     const handlePageChange = e => {
-        setCurrentPage(Number(e.target.textContent));
+        setCurrentPage( Number( e.target.textContent ) );
     };
 
     let page = list;
-    if (page.length >= 1){
-         page = paginate(page, currentPage, pageSize);
-         console.log(`currentPage: ${currentPage}`);
+    if ( page.length >= 1 ){
+         page = paginate( page, currentPage, pageSize );
+         console.log( `currentPage: ${ currentPage }` );
     }
 
 
@@ -111,8 +111,8 @@ const NewsSearch = () => {
                 <input
                 hidden={ true }
                 autoFocus
-                value={query}
-                onChange={e => setQuery(e.target.value)}
+                value={ query }
+                onChange={e => setQuery( e.target.value )}
                 />
                 <Button id="newsButton">Click Here!</Button>
             </form>
@@ -121,12 +121,12 @@ const NewsSearch = () => {
             : list.length === 0
             ? <p><i>Click the button to see current financial news.</i></p>
             : <ul>
-            {page.map((item, i) => (
+            { page.map(( item, i ) => (
               <Item 
               key={ i } 
               item={ item } 
               />
-            ))}
+            )) }
             </ul>
             }
             <Pagination

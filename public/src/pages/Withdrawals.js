@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import UserContext from "../components/UserContext";
-import AccountContext from "../components/AccountContext";
 import { useNavigate } from "react-router-dom";
 import { 
     Card, 
@@ -12,38 +11,48 @@ import {
 
 
 function Withdraw() {
-    const context = useContext(UserContext);
-    const accountContext = useContext(AccountContext);
-    const [ withdrawal, setWithdrawal ] = useState(0);
-    const [ total, setTotal ] = useState(context.balance);
-    const [ error, setError ] = useState('');
+    const context = useContext( UserContext );
+    const [ withdrawal, setWithdrawal ] = useState( 0) ;
+    const [ total, setTotal ] = useState( context.balance );
+    const [ error, setError ] = useState( '' );
     const navigate = useNavigate();
 
     const handleSubmit = event => {
-        console.log("submit ran");
         event.preventDefault();
-        if (withdrawal > total){
-            setError('Withdraw request larger than account balance.')
+        if ( withdrawal > total ){
+            setError( 'Withdraw request larger than account balance.' )
         } else {
             let newTotal = total - withdrawal;
-        setTotal(newTotal);
+        setTotal( newTotal );
         }
     }
 
     const handleChange = event => {
         const input = event.target.value;
-        if (isNaN(input)) {
-            setError('Please input a valid number')
+        if ( isNaN( input ) ) {
+            setError( 'Please input a valid number' )
         } else { 
-            setWithdrawal(Number(input)); 
+            setWithdrawal( Number( input ) ); 
         }
     }  
     
-    // update account balance
+    // update account balance in mongodb
     const updateAccountBalance = () => {
-        accountContext.accounts.find(account => {
-            account.id === context.id ? account.balance = total : console.log('no account');
-        });
+
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify( {
+                email: context.email,
+                amount: total,
+            } )
+          };
+
+        fetch( 'http://localhost:4000/updatebalance', requestOptions)
+        .then( response => response.json() )
+        .then( data => {
+            console.log( `Previous balance updated from $${ data.value.balance } to $${ context.balance }` )
+        } );
     }
 
     useEffect (() => {
@@ -54,8 +63,8 @@ function Withdraw() {
         updateAccountBalance();
         const thisTransaction = { name: context.name, ts: new Date().getTime(), type: 'Withdrawal', amount: withdrawal };
         context.transactionHistory.push( thisTransaction );
-        navigate('/success')
-    }, [total])
+        navigate( '/success' )
+    }, [ total ])
     return (
         <Card 
         className="text-center"

@@ -5,6 +5,7 @@ import {
     CardSubtitle,
     CardText,
     Button,
+    ButtonGroup,
     Col
  } from 'reactstrap';
  import { useNavigate } from 'react-router-dom';
@@ -14,15 +15,18 @@ import {
 function NewAccount() {
     const navigate = useNavigate();
     function onClickNewAccount() {
-        navigate('/createaccount');
+        navigate( '/createaccount' );
+    }
+    function onClickLoginToExistingAccount() {
+        navigate( '/login' );
     }
     function onClickDeposit() {
-        navigate('/deposit');
+        navigate( '/deposit' );
     }
     function onClickWithdraw() {
-        navigate('/withdraw');
+        navigate( '/withdraw' );
     }
-    const context = useContext(UserContext);
+    const context = useContext( UserContext );
 
     return (
         <Col sm="12" md={{ size: 6, offset: 3 }} className="text-center">
@@ -36,12 +40,15 @@ function NewAccount() {
                     className="mb-2 text-muted"
                     tag="h6"
                     >
-                        Hello, {context.name}!
+                        Hello, { context.name }!
                     </CardSubtitle>
                     <CardText>
-                        You have created an account with Bad Bank. Your account balance is: ${context.balance}. Would you like to create another account?
+                        You have created an account with Bad Bank. Your account balance is: ${ context.balance }. Would you like to create another account or login to a different account?
                     </CardText>
-                    <Button onClick={ onClickNewAccount }>Create Another Account</Button>
+                    <ButtonGroup style={{ backgroundColor: "#5c636a" }}>
+                        <Button outline style={{ color: "white" }} href="#/createaccount">Create Account</Button>
+                        <Button outline style={{ color: "white" }} href="#/login">Login</Button>
+                    </ButtonGroup>
                     <br/>
                     <br/>
                     <CardText>

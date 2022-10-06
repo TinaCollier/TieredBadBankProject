@@ -11,8 +11,7 @@ import {
  import UserContext from '../components/UserContext';
  import { useContext } from 'react';
 
-function Success() {
-    const context = useContext( UserContext );
+function SuccessfulLogin() {
     const navigate = useNavigate();
     function onClickTransactions() {
         navigate( '/transactions' );
@@ -23,7 +22,7 @@ function Success() {
     function onClickWithdraw() {
         navigate( '/withdraw' )
     }
-
+    const context = useContext( UserContext );
     return (
         <Col sm="12" md={{ size: 6, offset: 3 }} className="text-center">
             <Card >
@@ -39,20 +38,20 @@ function Success() {
                         Hello, { context.name }!
                     </CardSubtitle>
                     <CardText>
-                        Your transaction was successful. Your account balance is: ${context.balance}. Would you like to complete another transaction?
+                        Thank you for logging in. Your account balance is: ${ context.balance }. Would you like to complete a transaction?
                     </CardText>
                     <Button id="deposit" onClick={ onClickDeposit }>Deposit</Button>
                     <Button id="withdraw" onClick={ onClickWithdraw }>Withdraw</Button>
-                    <br />
+                    {/* <br />
                     <br />
                     <CardText>
                         Would you like to view your transaction data?
                     </CardText>
-                    <Button onClick={ onClickTransactions }>Transactions</Button>
+                    <Button onClick={ onClickTransactions }>Transactions</Button> */}
                 </CardBody>
         </Card> 
     </Col>
     )
 }
 
-export default Success;
+export default SuccessfulLogin;

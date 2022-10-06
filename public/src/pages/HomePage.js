@@ -5,10 +5,12 @@ import {
     CardSubtitle,
     CardText,
     Button,
-    Col
+    Col, 
+    ButtonGroup
  } from 'reactstrap';
  import HomePageImg from './images/homepage.jpg'
  import { useContext, UserContext } from 'react';
+
 
 function HomePage() {
 
@@ -18,7 +20,7 @@ function HomePage() {
                 <img
                 className="homePageImg"
                 alt="Card image"
-                src={HomePageImg}
+                src={ HomePageImg }
                 />
                 <CardBody>
                     <CardTitle tag="h5">
@@ -31,9 +33,12 @@ function HomePage() {
                         Bad Bank
                     </CardSubtitle>
                     <CardText>
-                        Thank you for choosing Bad Bank for all of your banking needs. Safe banking relies on you making good choices and decisions. You must first complete the Create Account Form prior to using your new account. Happy Banking!
+                        Thank you for choosing Bad Bank for all of your banking needs. Safe banking relies on you making good choices and decisions. You must first complete the Create Account Form prior to using your new account or log in using an existing account. Happy Banking!
                     </CardText>
-                    <Button href="#/createaccount">Create Account</Button>
+                    <ButtonGroup style={{ backgroundColor: "#5c636a" }}>
+                        <Button outline style={{ color: "white" }} href="#/createaccount">Create Account</Button>
+                        <Button outline style={{ color: "white" }} href="#/login">Login</Button>
+                    </ButtonGroup>
                 </CardBody>
         </Card> 
     </Col>
