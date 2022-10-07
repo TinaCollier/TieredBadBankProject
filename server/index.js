@@ -22,7 +22,7 @@ app.use( parser );
 app.use( jsonParser );
 
 // Have Node serve the files for our built React app
-app.use( express.static( 'public' ) );
+app.use( express.static( path.resolve( __dirname, "./client/build" ) ) );
 
 // Handle GET requests to /api route
 app.get( "/api", ( req, res ) => {
