@@ -1,7 +1,8 @@
 // server/index.js
 
 const express = require( "express" );
-const bodyParser = require( 'body-parser' )
+const bodyParser = require( 'body-parser' );
+path = require( 'path' );
 
 const cors = require( 'cors' );
 
