@@ -35,7 +35,9 @@ const Form = () => {
       } )
     };
 
-    fetch( 'http://localhost:4000/user/create', requestOptions)
+    const uri = 'https://tieredbadbankproject.herokuapp.com:' + process.env.PORT + '/user/create';
+
+    fetch( uri, requestOptions)
       .then( response => response.json() )
       .then( data => {
         console.log( data );
