@@ -61,7 +61,7 @@ app.put( '/updatebalance/', parser, async ( req, res ) => {
 })
 
 // all accounts
-app.get( '/alldata/', parser, async ( req, res ) => {
+app.get( '/alldata', parser, async ( req, res ) => {
   var data = [];
   try {
     data = await dal.all().then( ( data ) => {
