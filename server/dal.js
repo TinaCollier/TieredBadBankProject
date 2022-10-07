@@ -1,18 +1,31 @@
-const MongoClient = require( 'mongodb' ).MongoClient;
-const url = 'mongodb://localhost:27017';
-let db = null;
+// const { MongoClient, ServerApiVersion } = require('mongodb');
+// const uri = "mongodb+srv://tinacollier:rundoggy@cluster0.4au8woi.mongodb.net/?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// let db;
+// client.connect(err => {
+//   db = client.db("tieredbadbank-ouoov");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
-// connect to mongodb
-MongoClient.connect( url, { useUnifiedTopology: true }, ( err, client ) => {
-    console.log( 'Connected successfully to db server' );
-    // connect to myproject database
-    db = client.db( 'myproject' );
-} );
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://tinacollier:rundoggy@cluster0.4au8woi.mongodb.net/?retryWrites=true&w=majority";
+let db;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+try {
+    client.connect(err => {
+  db = client.db("tieredbadbank-ouoov");
+  console.log(db.collection( 'Users' ))
+  // perform actions on the collection object
+});
+} catch (error) {
+    console.log(error)
+}
 
 // create user account
 function create( name, email, password ) {
     return new Promise(( resolve, reject ) => {
-        const collection = db.collection( 'users' );
+        const collection = db.collection( 'Users' );
         const doc = {name, email, password, balance: 0};
         collection.insertOne( doc, { w:1 }, ( err, result ) => {
             err ? reject( err ) : resolve( doc );
@@ -23,7 +36,7 @@ function create( name, email, password ) {
 function findById( id ) {
     return new Promise(( resolve, reject ) => {    
         const customers = db
-            .collection( 'users' )
+            .collection( 'Users' )
             .find({ _id: id })
             .toArray(function( err, docs ) {
                 err ? reject( err ) : resolve( docs );
@@ -35,7 +48,7 @@ function findById( id ) {
 function find( email ){
     return new Promise(( resolve, reject ) => {    
         const customers = db
-            .collection( 'users' )
+            .collection( 'Users' )
             .find({ email: email })
             .toArray(function( err, docs ) {
                 err ? reject( err ) : resolve( docs );
@@ -47,7 +60,7 @@ function find( email ){
 function findOne( email ){
     return new Promise(( resolve, reject ) => {    
         const customers = db
-            .collection( 'users' )
+            .collection( 'Users' )
             .findOne({ email: email })
             .then(( doc ) => resolve( doc ))
             .catch(( err ) => reject( err ));    
@@ -58,7 +71,7 @@ function findOne( email ){
 function update( email, amount ){
     return new Promise(( resolve, reject ) => {    
         const customers = db
-            .collection( 'users' )            
+            .collection( 'Users' )            
             .findOneAndUpdate(
                 { email: email },
                 { $set: { balance: amount } },
@@ -77,7 +90,7 @@ function all(){
     return new Promise(( resolve, reject ) => {
         
         try {
-            resolve( db.collection( 'users' ).find( {} ).toArray() );
+            resolve( db.collection( 'Users' ).find( {} ).toArray() );
         } catch ( err ) {
             reject( err );
         }
@@ -87,7 +100,7 @@ function all(){
 function remove( email ){
     return new Promise(( resolve, reject ) => {
         try {
-            resolve(db.collection( 'users' ).deleteMany({ email: email }))
+            resolve(db.collection( 'Users' ).deleteMany({ email: email }))
         } catch ( err ) {
             reject( err );
         }
