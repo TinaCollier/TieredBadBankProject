@@ -11,15 +11,20 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGODB_URI;
 // "mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority"
+
+console.log( 'connecting to mongo server at ' + uri );
+
 let db;
 const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 try {
     client.connect(err => {
         db = client.db("tieredbadbank");
         // perform actions on the collection object
+        console.log( 'connected to mongo server at ' + uri );
     });
 } catch (error) {
-    console.log(error)
+    console.warn( 'error connecting to mongo server at ' + uri );
+    console.warn( 'error: ', error )
 }
 
 // create user account
