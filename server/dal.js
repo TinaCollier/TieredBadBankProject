@@ -29,10 +29,17 @@ try {
 
 // create user account
 function create( name, email, password ) {
+    console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
     return new Promise(( resolve, reject ) => {
         const collection = db.collection( 'Users' );
         const doc = {name, email, password, balance: 0};
         collection.insertOne( doc, { w:1 }, ( err, result ) => {
+            if ( err ) {
+                console.warn( 'there was an error ', err );
+            } else {
+                console.log( 'successfully created an account', doc );
+            }
+
             err ? reject( err ) : resolve( doc );
         });
     });
