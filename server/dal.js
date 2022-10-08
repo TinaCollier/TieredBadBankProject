@@ -59,22 +59,34 @@ const mongoConnect = async () =>{
 //     } );
 // }
 
-function create( name, email, password ) {
-    console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
-    return new Promise(( resolve, reject ) => {
-        const collection = db.collection( 'Users' );
-        const doc = {name, email, password, balance: 0};
-        collection.insertOne( doc, { w:1 }, ( err, result ) => {
-            if ( err ) {
-                console.warn( 'there was an error ', err );
-            } else {
-                console.log( 'successfully created an account', doc );
-            }
+// function create( name, email, password ) {
+//     console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
+//     return new Promise(( resolve, reject ) => {
+//         mongoConnect();
+//         const collection = db.collection( 'Users' );
+//         const doc = {name, email, password, balance: 0};
+//         collection.insertOne( doc, { w:1 }, ( err, result ) => {
+//             if ( err ) {
+//                 console.warn( 'there was an error ', err );
+//             } else {
+//                 console.log( 'successfully created an account', doc );
+//             }
 
-            err ? reject( err ) : resolve( doc );
-        });
-    });
-};
+//             err ? reject( err ) : resolve( doc );
+//         });
+//     });
+// };
+
+async function create( name, email, password ){
+    await mongoConnect();
+    const doc = {name, email, password, balance: 0};
+    try {
+        collection = db.collection( 'Users' );
+        collection.insertOne( doc, { w:1 } )
+    } catch ( err ) {
+        console.warn( 'there was an error creating a user', err )
+    }
+}
 
 function findById( id ) {
     return new Promise(( resolve, reject ) => {    
