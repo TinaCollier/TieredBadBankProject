@@ -28,29 +28,29 @@ app.use( express.static( path.resolve( __dirname, "../public/build" ) ) );
 // Handle GET requests to /api route
 app.get( "/api", ( req, res ) => {
     res.json({ message: "Hello from server!" });
-  });
+  } );
 
 // create user account
 app.post( '/user/create', jsonParser, ( req, res ) => {
   dal.create( req.body.name, req.body.email, req.body.password ).then( ( user ) => {
       res.send( user );
-    });
-});
+    } );
+} );
 
 // find user account
-app.post( '/user/search', parser, ( req, res ) => {
+app.post( '/user/search', parser, async ( req, res ) => {
   const email = req.body.email;
-  dal.findOne( email ).then( ( user ) => {
+  await dal.findOne( email ).then( ( user ) => {
     res.send( user );
   });
-});
+} );
 
-app.get( '/user/:email', jsonParser, ( req, res ) => {
+app.get( '/user/:email', jsonParser, async ( req, res ) => {
   const email = req.params.email;
-  dal.findById( email ).then( ( user ) => {
+  await dal.findById( email ).then( ( user ) => {
     res.send( user );
   } );
-} );
+  } );
 
 // update - deposit/withdraw amount
 app.put( '/updatebalance', parser, async ( req, res ) => {
@@ -59,7 +59,7 @@ app.put( '/updatebalance', parser, async ( req, res ) => {
   await dal.update( email, amount ).then( ( amount )  => {
     res.send( amount );
   }).catch( error => res.send( error.message ));
-})
+} );
 
 // all accounts
 app.get( '/alldata', parser, async ( req, res ) => {
@@ -74,9 +74,9 @@ app.get( '/alldata', parser, async ( req, res ) => {
 })
 
 // delete account
-app.delete( '/remove/:email', ( req, res ) => {
+app.delete( '/remove/:email', async ( req, res ) => {
   const email = req.params.email;
-  dal.remove( email ).then( () => {
+  await dal.remove( email ).then( () => {
     res.status( 200 ).json({ message: 'Deleted!' });
   }).catch( ( err ) => {
     res.status( 400 ).json({ error: err })
