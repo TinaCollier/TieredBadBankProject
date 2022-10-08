@@ -42,7 +42,7 @@ app.post( '/user/search', jsonParser, async ( req, res ) => {
   const email = req.body.email;
   await dal.findOne( email ).then( ( user ) => {
     res.send( user );
-  });
+  }).catch( error => res.send( 'search error ', error));
 } );
 
 app.get( '/user/:email', jsonParser, async ( req, res ) => {
@@ -50,7 +50,7 @@ app.get( '/user/:email', jsonParser, async ( req, res ) => {
   await dal.findById( email ).then( ( user ) => {
     res.send( user );
   } );
-  } );
+} );
 
 // update - deposit/withdraw amount
 app.put( '/updatebalance', parser, async ( req, res ) => {
