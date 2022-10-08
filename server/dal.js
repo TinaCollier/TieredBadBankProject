@@ -32,7 +32,7 @@ let db;
 const mongoConnect = async () =>{
     console.log( 'connecting to mongo server at ' + uri );
     try {
-        db = await MongoClient.connect( uri );
+        db = await MongoClient.connect( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 } );
     } catch (error) {
         console.warn( 'error connecting to mongo server at ' + uri );
         console.warn( 'error: ', error )
