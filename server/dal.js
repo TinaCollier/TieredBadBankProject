@@ -30,10 +30,10 @@ let db;
 //     }
 // }
 
-const mongoConnect = async () =>{
+const mongoConnect = () =>{
     console.log( 'connecting to mongo server at ' + uri );
     try {
-        await client.connect(err => {
+        client.connect(err => {
             db = client.db("tieredbadbank");
             // perform actions on the collection object
             console.log( 'connected to mongo server at ' + uri );
@@ -78,13 +78,14 @@ const mongoConnect = async () =>{
 // };
 
 async function create( name, email, password ){
-    await mongoConnect();
-    const doc = {name, email, password, balance: 0};
+    const doc = { name, email, password, balance: 0 };
     try {
-        let users = db.collection( 'Users' );
-        users.insertOne( doc, { w:1 } )
+        await mongoConnect();
     } catch ( err ) {
         console.warn( 'there was an error creating a user', err )
+    } finally {
+        let users = db.collection( 'Users' );
+        users.insertOne( doc, { w:1 } )
     }
 }
 
