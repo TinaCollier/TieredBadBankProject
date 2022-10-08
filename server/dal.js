@@ -84,7 +84,6 @@ async function findOne( email ){
         if ( err ) {
             console.warn( 'there was an error connecting', err );
         } else {   
-            console.log( 'success finding user doc', doc );
             console.log( 'success finding user response', response );
         }
         //client.close();
