@@ -81,8 +81,9 @@ function create( name, email, password ){
             console.warn( 'there was an error connecting', err );
         } else {   
             console.log( 'success adding user', doc );
-            client.close();
+            
         }
+        client.close();
     } );
 }
 
