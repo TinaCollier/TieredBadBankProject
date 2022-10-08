@@ -76,14 +76,14 @@ async function mongoConnect(){
 function create( name, email, password ){
     const doc = { name, email, password };
     client.connect(err => {
-        client.db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, {w:1} );
+        const response = client.db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, {w:1} );
         if ( err ) {
             console.warn( 'there was an error connecting', err );
         } else {   
-            console.log( 'success adding user', doc );
-            
+            console.log( 'success adding user doc', doc );
+            console.log( 'success adding user response', response );
         }
-        client.close();
+        //client.close();
     } );
 }
 
