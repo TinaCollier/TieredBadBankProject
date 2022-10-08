@@ -15,41 +15,57 @@ const uri = process.env.MONGODB_URI;
 console.log( 'connecting to mongo server at ' + uri );
 
 let db;
-const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-function connectToMongoDB(){
-    try {
-        client.connect(err => {
-            db = client.db("tieredbadbank");
-            // perform actions on the collection object
-            console.log( 'connected to mongo server at ' + uri );
-        });
-    } catch (error) {
-        console.warn( 'error connecting to mongo server at ' + uri );
-        console.warn( 'error: ', error )
-    }
+// const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// function connectToMongoDB(){
+//     try {
+//         client.connect(err => {
+//             db = client.db("tieredbadbank");
+//             // perform actions on the collection object
+//             console.log( 'connected to mongo server at ' + uri );
+//         });
+//     } catch (error) {
+//         console.warn( 'error connecting to mongo server at ' + uri );
+//         console.warn( 'error: ', error )
+//     }
+// }
+
+function create( name, email, password ) {
+    return new Promise ( ( resolve, reject ) => {
+        const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+        const doc = {name, email, password, balance: 0};
+
+        client.connect().db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, { w:1 }, ( err, result ) => {
+            if ( err ) {
+                console.warn( 'there was an error', err );
+                reject( err );
+            } else {
+                console.log( 'no errors, doc appears to have been inserted', doc );
+                resolve( result );
+            }
+        } );
+    } );
 }
 
-// create user account
-function create( name, email, password ) {
-    connectToMongoDB();
-    console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
-    return new Promise(( resolve, reject ) => {
-        const collection = db.collection( 'Users' );
-        const doc = {name, email, password, balance: 0};
-        collection.insertOne( doc, { w:1 }, ( err, result ) => {
-            if ( err ) {
-                console.warn( 'there was an error ', err );
-            } else {
-                console.log( 'successfully created an account', doc );
-            }
+// // create user account
+// function create( name, email, password ) {
+//     connectToMongoDB();
+//     console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
+//     return new Promise(( resolve, reject ) => {
+//         const collection = db.collection( 'Users' );
+//         const doc = {name, email, password, balance: 0};
+//         collection.insertOne( doc, { w:1 }, ( err, result ) => {
+//             if ( err ) {
+//                 console.warn( 'there was an error ', err );
+//             } else {
+//                 console.log( 'successfully created an account', doc );
+//             }
 
-            err ? reject( err ) : resolve( doc );
-        });
-    });
-};
+//             err ? reject( err ) : resolve( doc );
+//         });
+//     });
+// };
 
 function findById( id ) {
-    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )
@@ -62,7 +78,6 @@ function findById( id ) {
 
 // find user account
 function find( email ){
-    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )
@@ -75,7 +90,6 @@ function find( email ){
 
 // find user account
 function findOne( email ){
-    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )
@@ -87,7 +101,6 @@ function findOne( email ){
 
 // update - deposit/withdraw amount
 function update( email, amount ){
-    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )            
@@ -106,7 +119,6 @@ function update( email, amount ){
 
 // all users
 function all(){
-    connectToMongoDB();
     return new Promise(( resolve, reject ) => {
         
         try {
@@ -118,7 +130,6 @@ function all(){
 }
 
 function remove( email ){
-    connectToMongoDB();
     return new Promise(( resolve, reject ) => {
         try {
             resolve(db.collection( 'Users' ).deleteMany({ email: email }))
