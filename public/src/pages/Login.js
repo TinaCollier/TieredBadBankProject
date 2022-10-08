@@ -35,27 +35,23 @@ const Login = () => {
             body: JSON.stringify( {
                 email: userEmail
             } )
-        }
-        try {
-            await fetch( uri, requestOptions)
-            .then( response => response.json() )
-            .then( data => {
-                console.log( 'login data', JSON.stringify(data))
-                if ( userPassword === data.password ){
-                    setId( data.id );
-                    setName( data.name );
-                    setEmail( data.email );
-                    setBalance( data.balance );
-                    setLoggedIn( true );
-                    setUserEmail( '' );
-                    setUserPassword( '' );
-                    rerouteToSuccessfulLogin();
-                } 
-            })
-        } catch ( err ) {
-            console.log( err );
-            setInvalid( true );
-        }
+        };
+
+        await fetch( uri, requestOptions)
+        .then( response => response.json() )
+        .then( data => {
+            console.log( 'login data', JSON.stringify(data))
+            if ( userPassword === data.password ){
+                setId( data.id );
+                setName( data.name );
+                setEmail( data.email );
+                setBalance( data.balance );
+                setLoggedIn( true );
+                setUserEmail( '' );
+                setUserPassword( '' );
+                rerouteToSuccessfulLogin();
+            } 
+        })
     }
 
     const handleSubmit = ( event ) => {
