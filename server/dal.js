@@ -16,19 +16,24 @@ console.log( 'connecting to mongo server at ' + uri );
 
 let db;
 const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-try {
-    client.connect(err => {
-        db = client.db("tieredbadbank");
-        // perform actions on the collection object
-        console.log( 'connected to mongo server at ' + uri );
-    });
-} catch (error) {
-    console.warn( 'error connecting to mongo server at ' + uri );
-    console.warn( 'error: ', error )
+function connectToMongoDB(){
+    try {
+        client.connect(err => {
+            db = client.db("tieredbadbank");
+            // perform actions on the collection object
+            console.log( 'connected to mongo server at ' + uri );
+        });
+    } catch (error) {
+        console.warn( 'error connecting to mongo server at ' + uri );
+        console.warn( 'error: ', error )
+    } finally {
+        client.close();
+    } 
 }
 
 // create user account
 function create( name, email, password ) {
+    connectToMongoDB();
     console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
     return new Promise(( resolve, reject ) => {
         const collection = db.collection( 'Users' );
@@ -46,6 +51,7 @@ function create( name, email, password ) {
 };
 
 function findById( id ) {
+    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )
@@ -58,6 +64,7 @@ function findById( id ) {
 
 // find user account
 function find( email ){
+    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )
@@ -70,6 +77,7 @@ function find( email ){
 
 // find user account
 function findOne( email ){
+    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )
@@ -81,6 +89,7 @@ function findOne( email ){
 
 // update - deposit/withdraw amount
 function update( email, amount ){
+    connectToMongoDB();
     return new Promise(( resolve, reject ) => {    
         const customers = db
             .collection( 'Users' )            
@@ -99,6 +108,7 @@ function update( email, amount ){
 
 // all users
 function all(){
+    connectToMongoDB();
     return new Promise(( resolve, reject ) => {
         
         try {
@@ -110,6 +120,7 @@ function all(){
 }
 
 function remove( email ){
+    connectToMongoDB();
     return new Promise(( resolve, reject ) => {
         try {
             resolve(db.collection( 'Users' ).deleteMany({ email: email }))
