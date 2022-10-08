@@ -74,7 +74,7 @@ async function mongoConnect(){
 // };
 
 async function create( name, email, password ){
-    const client = new MongoClient( 'mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+    const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
     await client.connect( async err => {
         if ( err ) {
             console.warn( 'there was an error connecting', err );
