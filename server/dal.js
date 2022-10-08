@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+// const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = "mongodb+srv://tinacollier:rundoggy@cluster0.4au8woi.mongodb.net/?retryWrites=true&w=majority";
 // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 // let db;
@@ -12,21 +12,34 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = process.env.MONGODB_URI;
 // const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 // "mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority"
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  client.db("tieredbadbank").collection("Users").find( {} ).toArray( ( err, result ) => {
+    if ( err ) {
+      console.log( err );
+    } else {
+      console.log( result );
+    }
 
+    client.close();
+  } );
+});
 
-// let db;
+let db;
 // const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// async function mongoConnect(){
-//     try {
-//         await client.connect().then( async () => {
-//             console.log( 'connected to mongo server at ' + uri );
-//             db = await client.db("tieredbadbank");
-//         });
-//     } catch (error) {
-//         console.warn( 'error connecting to mongo server at ' + uri );
-//         console.warn( 'error: ', error )
-//     }
-// }
+async function mongoConnect(){
+    try {
+        await client.connect().then( async () => {
+            console.log( 'connected to mongo server at ' + uri );
+            db = await client.db("tieredbadbank");
+        });
+    } catch (error) {
+        console.warn( 'error connecting to mongo server at ' + uri );
+        console.warn( 'error: ', error )
+    }
+}
 
 
 // function create( name, email, password ) {
@@ -63,32 +76,18 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 // };
 
 async function create( name, email, password ){
-    // const client = new MongoClient( 'mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-    // await client.connect( async err => {
-    //     if ( err ) {
-    //         console.warn( 'there was an error connecting', err );
-    //     } else {
-    //         const doc = { name, email, password, balance: 0 };
-    //         const collection = client.db( 'tieredbadbank' ).collection( 'Users' );
-    //         const results = await collection.insertOne( doc, { w: 1 } );
-    //         console.log( 'insert user succeeded', results );
-    //         client.close();
-    //     }
-    const uri = "mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-    client.connect(err => {
-    client.db("tieredbadbank").collection("Users").find( {} ).toArray( ( err, result ) => {
+    const client = new MongoClient( 'mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+    await client.connect( async err => {
         if ( err ) {
-        console.log( err );
+            console.warn( 'there was an error connecting', err );
         } else {
-        console.log( result );
-        }
+            const collection = client.db( 'tieredbadbank' ).collection( 'Users' );
+            const results = await users.insertOne( doc, { w: 1 } );
+            
+            client.close();
 
-        client.close();
+        }
     } );
-});
-    // } );
-    
 }
 
 // async function create( name, email, password ){
