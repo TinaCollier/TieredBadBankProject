@@ -63,17 +63,33 @@ async function mongoConnect(){
 // };
 
 async function create( name, email, password ){
-    const doc = { name, email, password, balance: 0 };
-    await mongoConnect();
-    try {
-        const users = db.collection( 'Users' );
-        const results = await users.insertOne( doc, { w:1 } )
-        console.log( 'SUCCESS!!!!!', results );
-        // console.log('users', db.collection( 'Users' ) );
-    } catch ( err ) {
-        console.warn( 'there was an error creating a user', err )
-    }
+    const client = new MongoClient( 'mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+    await client.connect( async err => {
+        if ( err ) {
+            console.warn( 'there was an error connecting', err );
+        } else {
+            const doc = { name, email, password, balance: 0 };
+            const collection = client.db( 'tieredbadbank' ).collection( 'Users' );
+            const results = await collection.insertOne( doc, { w: 1 } );
+            console.log( 'insert user succeeded', results );
+            client.close();
+        }
+    } );
 }
+
+// async function create( name, email, password ){
+//     const doc = { name, email, password, balance: 0 };
+//     await mongoConnect();
+//     try {
+//         const users = db.collection( 'Users' );
+//         const results = await users.insertOne( doc, { w:1 } )
+//         console.log( 'SUCCESS!!!!!', results );
+//         // console.log('users', db.collection( 'Users' ) );
+//     } catch ( err ) {
+//         console.warn( 'there was an error creating a user', err )
+//     }
+//     await client.close();
+// }
 
 function findById( id ) {
     return new Promise(( resolve, reject ) => {    
