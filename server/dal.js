@@ -20,7 +20,7 @@ client.connect(err => {
     if ( err ) {
       console.log('errrrrr', err );
     } else {
-      console.log('result', result );
+      console.log('resultssss', result );
     }
   } );
 });
