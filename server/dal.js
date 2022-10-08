@@ -1,17 +1,6 @@
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = "mongodb+srv://tinacollier:rundoggy@cluster0.4au8woi.mongodb.net/?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// let db;
-// client.connect(err => {
-//   db = client.db("tieredbadbank-ouoov");
-//   // perform actions on the collection object
-//   client.close();
-// });
 
-// const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGODB_URI;
-// const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// "mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority"
+
 const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = "mongodb+srv://tinacollier:B1RsnSpltJaEP9mo@badbankinstance.wpy6j.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -26,7 +15,7 @@ client.connect(err => {
 });
 
 let db;
-// const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
 async function mongoConnect(){
     try {
         await client.connect().then( async () => {
@@ -38,40 +27,6 @@ async function mongoConnect(){
         console.warn( 'error: ', error )
     }
 }
-
-
-// function create( name, email, password ) {
-//     return new Promise ( ( resolve, reject ) => {
-//         const doc = {name, email, password, balance: 0};
-//         db.collection( 'Users' ).insertOne( doc, { w:1 }, ( err, result ) => {
-//             if ( err ) {
-//                 console.warn( 'there was an error', err );
-//                 reject( err );
-//             } else {
-//                 console.log( 'no errors, doc appears to have been inserted', doc );
-//                 resolve( result );
-//             }
-//         } );
-//     } );
-// }
-
-// function create( name, email, password ) {
-//     console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
-//     return new Promise(( resolve, reject ) => {
-//         mongoConnect();
-//         const collection = db.collection( 'Users' );
-//         const doc = {name, email, password, balance: 0};
-//         collection.insertOne( doc, { w:1 }, ( err, result ) => {
-//             if ( err ) {
-//                 console.warn( 'there was an error ', err );
-//             } else {
-//                 console.log( 'successfully created an account', doc );
-//             }
-
-//             err ? reject( err ) : resolve( doc );
-//         });
-//     });
-// };
 
 async function create( name, email, password ){
     const doc = { name, email, password };
@@ -87,19 +42,6 @@ async function create( name, email, password ){
     } );
 }
 
-// async function create( name, email, password ){
-//     const doc = { name, email, password, balance: 0 };
-//     await mongoConnect();
-//     try {
-//         const users = db.collection( 'Users' );
-//         const results = await users.insertOne( doc, { w:1 } )
-//         console.log( 'SUCCESS!!!!!', results );
-//         // console.log('users', db.collection( 'Users' ) );
-//     } catch ( err ) {
-//         console.warn( 'there was an error creating a user', err )
-//     }
-//     await client.close();
-// }
 
 function findById( id ) {
     return new Promise(( resolve, reject ) => {    
@@ -111,6 +53,7 @@ function findById( id ) {
         });    
     })
 }
+
 
 // find user account
 function find( email ){
@@ -125,54 +68,118 @@ function find( email ){
 }
 
 // find user account
-function findOne( email ){
-    return new Promise(( resolve, reject ) => {    
-        const customers = db
-            .collection( 'Users' )
-            .findOne({ email: email })
-            .then(( doc ) => resolve( doc ))
-            .catch(( err ) => reject( err ));    
-    })
-}
+// function findOne( email ){
+//     return new Promise(( resolve, reject ) => {    
+//         const customers = db
+//             .collection( 'Users' )
+//             .findOne({ email: email })
+//             .then(( doc ) => resolve( doc ))
+//             .catch(( err ) => reject( err ));    
+//     })
+// }
 
-// update - deposit/withdraw amount
-function update( email, amount ){
-    return new Promise(( resolve, reject ) => {    
-        const customers = db
-            .collection( 'Users' )            
-            .findOneAndUpdate(
-                { email: email },
-                { $set: { balance: amount } },
-                { returnOriginal: false },
-                function (err, documents) {
-                    err ? reject( err ) : resolve( documents );
-                }
-            );            
-
-
-    });    
-}
-
-// all users
-function all(){
-    return new Promise(( resolve, reject ) => {
-        
-        try {
-            resolve( db.collection( 'Users' ).find( {} ).toArray() );
-        } catch ( err ) {
-            reject( err );
+async function findOne( email ){
+    client.connect( async err => {
+        const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne({ email: email });
+        if ( err ) {
+            console.warn( 'there was an error connecting', err );
+        } else {   
+            console.log( 'success finding user doc', doc );
+            console.log( 'success finding user response', response );
         }
+        //client.close();
     } );
 }
 
-function remove( email ){
-    return new Promise(( resolve, reject ) => {
-        try {
-            resolve(db.collection( 'Users' ).deleteMany({ email: email }))
-        } catch ( err ) {
-            reject( err );
+// update - deposit/withdraw amount
+// function update( email, amount ){
+//     return new Promise(( resolve, reject ) => {    
+//         const customers = db
+//             .collection( 'Users' )            
+//             .findOneAndUpdate(
+//                 { email: email },
+//                 { $set: { balance: amount } },
+//                 { returnOriginal: false },
+//                 function (err, documents) {
+//                     err ? reject( err ) : resolve( documents );
+//                 }
+//             );            
+
+
+//     });    
+// }
+
+async function update( email, amount ){
+    client.connect( async err => {
+        const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).findOneAndUpdate(
+            { email: email },
+            { $set: { balance: amount } },
+            { returnOriginal: false },
+            function (err, documents) {
+                err ? reject( err ) : resolve( documents );
+            })
+        if ( err ) {
+            console.warn( 'there was an error connecting', err );
+        } else {   
+            console.log( 'success updating user doc', doc );
+            console.log( 'success updating user response', response );
         }
-    })
+        //client.close();
+    } );
+}
+
+// all users
+// function all(){
+//     return new Promise(( resolve, reject ) => {
+        
+//         try {
+//             resolve( db.collection( 'Users' ).find( {} ).toArray() );
+//         } catch ( err ) {
+//             reject( err );
+//         }
+//     } );
+// }
+
+async function all(){
+    client.connect( async err => {
+        const response = await client.db("tieredbadbank").collection("Users").find( {} ).toArray( ( err, result ) => {
+            if ( err ) {
+            console.log('errrrrr', err );
+            } else {
+            console.log('resultssss', result );
+            }
+        } );
+        if ( err ) {
+            console.warn( 'there was an error connecting', err );
+        } else {   
+            console.log( 'retrieving all docs');
+            console.log( 'success retrieving all docs');
+        }
+        //client.close();
+    } );
+    }
+}
+
+// function remove( email ){
+//     return new Promise(( resolve, reject ) => {
+//         try {
+//             resolve(db.collection( 'Users' ).deleteMany({ email: email }))
+//         } catch ( err ) {
+//             reject( err );
+//         }
+//     })
+// }
+
+async function remove( email ){
+    client.connect( async err => {
+        const response = await client.db("tieredbadbank").collection("Users").find( {} ).deleteMany({ email: email });
+        if ( err ) {
+            console.warn( 'there was an error connecting', err );
+        } else {   
+            console.log( 'success removing user doc', doc );
+            console.log( 'success removing user response', response );
+        }
+    } )
 }
 
 module.exports = { create, findOne, find, findById, update, all, remove, mongoConnect };
