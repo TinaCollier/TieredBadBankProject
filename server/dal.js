@@ -79,7 +79,7 @@ const mongoConnect = async () =>{
 
 async function create( name, email, password ){
     const doc = { name, email, password, balance: 0 };
-    mongoConnect();
+    await mongoConnect();
     try {
         if ( db ){
             let users = db.collection( 'Users' );
@@ -91,7 +91,6 @@ async function create( name, email, password ){
     } catch ( err ) {
         console.warn( 'there was an error creating a user', err )
     }
-    console.log( 'db', db )
 }
 
 function findById( id ) {
