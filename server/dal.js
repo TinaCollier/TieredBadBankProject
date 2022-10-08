@@ -81,12 +81,12 @@ async function create( name, email, password ){
     const doc = { name, email, password, balance: 0 };
     try {
         await mongoConnect();
-        console.log('users', db.collection( 'Users' ) );
+        console.log( 'db', db )
+        // let users = db.collection( 'Users' );
+        // users.insertOne( doc, { w:1 } )
+        // console.log('users', db.collection( 'Users' ) );
     } catch ( err ) {
         console.warn( 'there was an error creating a user', err )
-    } finally {
-        let users = db.collection( 'Users' );
-        users.insertOne( doc, { w:1 } )
     }
 }
 
