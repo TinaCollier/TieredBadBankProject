@@ -32,7 +32,7 @@ function Deposit() {
     }
 
     // update account balance in mongodb
-    const updateAccountBalance = () => {
+    const updateAccountBalance = async () => {
         
         const requestOptions = {
             method: 'PUT',
@@ -43,7 +43,9 @@ function Deposit() {
             } )
           };
 
-        fetch( 'http://localhost:4000/updatebalance', requestOptions)
+        const uri = '/updatebalance';
+
+        await fetch( uri, requestOptions)
         .then( response => response.json() )
         .then( data => {
             console.log( `Previous balance updated from $${ data.value.balance } to $${ context.balance }` )

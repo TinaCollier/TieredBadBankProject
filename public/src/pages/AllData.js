@@ -32,9 +32,10 @@ function AllData() {
     }
     
 // use this to make a call to the database
-    const handleAllData = () => {
+    const handleAllData = async () => {
+        const uri = '/alldata';
         setShowAllData( true );
-        fetch( 'http://localhost:4000/alldata' )
+        await fetch( uri )
         .then( ( res ) => res.json() )
         .then( ( data ) => {
             // console.log('data', data)

@@ -37,8 +37,8 @@ function Withdraw() {
     }  
     
     // update account balance in mongodb
-    const updateAccountBalance = () => {
-
+    const updateAccountBalance = async () => {
+        const uri = '/updatebalance';
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ function Withdraw() {
             } )
           };
 
-        fetch( 'http://localhost:4000/updatebalance', requestOptions)
+        await fetch( uri, requestOptions)
         .then( response => response.json() )
         .then( data => {
             console.log( `Previous balance updated from $${ data.value.balance } to $${ context.balance }` )

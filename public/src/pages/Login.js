@@ -28,6 +28,7 @@ const Login = () => {
     }
 
     async function findAccount(){
+        const uri = '/user/search';
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -36,7 +37,7 @@ const Login = () => {
             } )
         }
         try {
-            await fetch( 'http://localhost:4000/user/search', requestOptions)
+            await fetch( uri, requestOptions)
             .then( response => response.json() )
             .then( data => {
                 if ( userPassword === data.password ){

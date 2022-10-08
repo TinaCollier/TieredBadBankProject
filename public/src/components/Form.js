@@ -24,7 +24,7 @@ const Form = () => {
     navigate( '/newaccount' );
   }
 
-  function handleCreate() {
+  async function handleCreate() {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -35,9 +35,9 @@ const Form = () => {
       } )
     };
 
-    const uri = 'https://tieredbadbankproject.herokuapp.com/user/create';
+    const uri = '/user/create';
 
-    fetch( uri, requestOptions)
+    await fetch( uri, requestOptions)
       .then( response => response.json() )
       .then( data => {
         console.log( data );
