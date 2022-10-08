@@ -31,21 +31,21 @@ app.get( "/api", ( req, res ) => {
   });
 
 // create user account
-app.post( '/user/create/', jsonParser, ( req, res ) => {
+app.post( '/user/create', jsonParser, ( req, res ) => {
   dal.create( req.body.name, req.body.email, req.body.password ).then( ( user ) => {
       res.send( user );
     });
 });
 
 // find user account
-app.post( '/user/search/', parser, ( req, res ) => {
+app.post( '/user/search', parser, ( req, res ) => {
   const email = req.body.email;
   dal.findOne( email ).then( ( user ) => {
     res.send( user );
   });
 });
 
-app.get( '/user/:email/', jsonParser, ( req, res ) => {
+app.get( '/user/:email', jsonParser, ( req, res ) => {
   const email = req.params.email;
   dal.findById( email ).then( ( user ) => {
     res.send( user );
@@ -53,7 +53,7 @@ app.get( '/user/:email/', jsonParser, ( req, res ) => {
 } );
 
 // update - deposit/withdraw amount
-app.put( '/updatebalance/', parser, async ( req, res ) => {
+app.put( '/updatebalance', parser, async ( req, res ) => {
   const email = req.body.email;
   const amount = req.body.amount;
   await dal.update( email, amount ).then( ( amount )  => {

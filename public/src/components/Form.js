@@ -35,7 +35,7 @@ const Form = () => {
       } )
     };
 
-    const uri = 'https://tieredbadbankproject.herokuapp.com:' + process.env.PORT + '/user/create';
+    const uri = 'https://tieredbadbankproject.herokuapp.com/user/create';
 
     fetch( uri, requestOptions)
       .then( response => response.json() )
