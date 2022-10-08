@@ -29,45 +29,47 @@ let db;
 //     }
 // }
 
+// function create( name, email, password ) {
+//     return new Promise ( ( resolve, reject ) => {
+//         const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+//         const doc = {name, email, password, balance: 0};
+
+//         client.connect( err => {
+//             console.warn( 'error trying to connect to Mongodb' ) 
+//             db = client.db( 'tieredbadbank' ) 
+//         } );
+//         db.collection( 'Users' ).insertOne( doc, { w:1 }, ( err, result ) => {
+//             if ( err ) {
+//                 console.warn( 'there was an error', err );
+//                 reject( err );
+//             } else {
+//                 console.log( 'no errors, doc appears to have been inserted', doc );
+//                 resolve( result );
+//             }
+//         } );
+//     } );
+// }
+
+
+
+// create user account
 function create( name, email, password ) {
-    return new Promise ( ( resolve, reject ) => {
-        const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-        client.connect( err => {
-            console.warn( 'error trying to connect to Mongodb' ) 
-            db = client.db( 'tieredbadbank' ) 
-        } );
-        const collection = db.collection( 'Users' )
+    const dbConnect = dbo.getDb();
+    console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
+    return new Promise(( resolve, reject ) => {
+        const collection = dbConnect.collection( 'Users' );
         const doc = {name, email, password, balance: 0};
         collection.insertOne( doc, { w:1 }, ( err, result ) => {
             if ( err ) {
-                console.warn( 'there was an error', err );
-                reject( err );
+                console.warn( 'there was an error ', err );
             } else {
-                console.log( 'no errors, doc appears to have been inserted', doc );
-                resolve( result );
+                console.log( 'successfully created an account', doc );
             }
-        } );
-    } );
-}
 
-// // create user account
-// function create( name, email, password ) {
-//     connectToMongoDB();
-//     console.log( 'processing request to create account ' + name + ' ' + email + ' ' + password );
-//     return new Promise(( resolve, reject ) => {
-//         const collection = db.collection( 'Users' );
-//         const doc = {name, email, password, balance: 0};
-//         collection.insertOne( doc, { w:1 }, ( err, result ) => {
-//             if ( err ) {
-//                 console.warn( 'there was an error ', err );
-//             } else {
-//                 console.log( 'successfully created an account', doc );
-//             }
-
-//             err ? reject( err ) : resolve( doc );
-//         });
-//     });
-// };
+            err ? reject( err ) : resolve( doc );
+        });
+    });
+};
 
 function findById( id ) {
     return new Promise(( resolve, reject ) => {    
