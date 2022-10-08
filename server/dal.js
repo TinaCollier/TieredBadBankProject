@@ -73,10 +73,10 @@ async function mongoConnect(){
 //     });
 // };
 
-function create( name, email, password ){
+async function create( name, email, password ){
     const doc = { name, email, password };
-    client.connect(err => {
-        const response = client.db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, {w:1} );
+    client.connect( async err => {
+        const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, {w:1} );
         if ( err ) {
             console.warn( 'there was an error connecting', err );
         } else {   
