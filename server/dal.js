@@ -34,7 +34,12 @@ function create( name, email, password ) {
         const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
         const doc = {name, email, password, balance: 0};
 
-        client.connect().db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, { w:1 }, ( err, result ) => {
+        client.connect( err => {
+            console.warn( 'error trying to connect to Mongodb' ) 
+            db = client.db( 'tieredbadbank' ) 
+        } );
+        db.collection( 'Users' )
+        .insertOne( doc, { w:1 }, ( err, result ) => {
             if ( err ) {
                 console.warn( 'there was an error', err );
                 reject( err );
