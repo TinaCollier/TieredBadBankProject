@@ -40,7 +40,7 @@ const Login = () => {
             await fetch( uri, requestOptions)
             .then( response => response.json() )
             .then( data => {
-                console.log( 'login data', data)
+                console.log( 'login data', JSON.stringify(data))
                 if ( userPassword === data.password ){
                     setId( data.id );
                     setName( data.name );
