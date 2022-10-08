@@ -22,8 +22,6 @@ client.connect(err => {
     } else {
       console.log('result', result );
     }
-
-    client.close();
   } );
 });
 
