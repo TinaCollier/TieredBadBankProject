@@ -73,17 +73,15 @@ async function mongoConnect(){
 //     });
 // };
 
-async function create( name, email, password ){
-    const client = new MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-    await client.connect( async err => {
+function create( name, email, password ){
+    const doc = { name, email, password };
+    client.connect(err => {
+        client.db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, {w:1} );
         if ( err ) {
             console.warn( 'there was an error connecting', err );
-        } else {
-            const collection = client.db( 'tieredbadbank' ).collection( 'Users' );
-            const results = await users.insertOne( doc, { w: 1 } );
-            
+        } else {   
+            console.log( 'success adding user', doc );
             client.close();
-
         }
     } );
 }
