@@ -26,9 +26,7 @@ function connectToMongoDB(){
     } catch (error) {
         console.warn( 'error connecting to mongo server at ' + uri );
         console.warn( 'error: ', error )
-    } finally {
-        client.close();
-    } 
+    }
 }
 
 // create user account
