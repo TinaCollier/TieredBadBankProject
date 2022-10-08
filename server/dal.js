@@ -88,6 +88,7 @@ async function create( name, email, password ){
     } catch ( err ) {
         console.warn( 'there was an error creating a user', err )
     }
+    console.log( 'db', db )
 }
 
 function findById( id ) {
