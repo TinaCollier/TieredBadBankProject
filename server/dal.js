@@ -30,12 +30,16 @@ let db;
 //     }
 // }
 
-function create( name, email, password ) {
-    client.connect( err => {
+const mongoConnect = async () =>{
+    await client.connect( err => {
         console.warn( 'error trying to connect to Mongodb' ) 
         db = client.db( 'tieredbadbank' ) 
-    } );
+    } )
+};
+
+function create( name, email, password ) {
     return new Promise ( ( resolve, reject ) => {
+        mongoConnect();
         const doc = {name, email, password, balance: 0};
         db.collection( 'Users' ).insertOne( doc, { w:1 }, ( err, result ) => {
             if ( err ) {
