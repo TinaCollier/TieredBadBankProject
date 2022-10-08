@@ -30,10 +30,10 @@ let db;
 //     }
 // }
 
-const mongoConnect = () =>{
+const mongoConnect = async () =>{
     console.log( 'connecting to mongo server at ' + uri );
     try {
-        client.connect(err => {
+        await client.connect(err => {
             db = client.db("tieredbadbank");
             // perform actions on the collection object
             console.log( 'connected to mongo server at ' + uri );
