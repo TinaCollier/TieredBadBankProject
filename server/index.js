@@ -41,6 +41,7 @@ app.post( '/user/create', jsonParser, async ( req, res ) => {
 app.post( '/user/search', parser, async ( req, res ) => {
   const email = req.body.email;
   await dal.findOne( email ).then( ( user ) => {
+    console.log( 'user', user )
     res.send( user );
   });
 } );
