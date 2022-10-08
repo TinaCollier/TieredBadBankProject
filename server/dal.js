@@ -81,8 +81,8 @@ async function create( name, email, password ){
     await mongoConnect();
     const doc = {name, email, password, balance: 0};
     try {
-        collection = db.collection( 'Users' );
-        collection.insertOne( doc, { w:1 } )
+        let users = db.collection( 'Users' );
+        users.insertOne( doc, { w:1 } )
     } catch ( err ) {
         console.warn( 'there was an error creating a user', err )
     }
