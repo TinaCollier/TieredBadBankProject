@@ -18,9 +18,9 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   client.db("tieredbadbank").collection("Users").find( {} ).toArray( ( err, result ) => {
     if ( err ) {
-      console.log( err );
+      console.log('err', err );
     } else {
-      console.log( result );
+      console.log('result', result );
     }
 
     client.close();
