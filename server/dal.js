@@ -157,8 +157,8 @@ async function all(){
         }
         //client.close();
     } );
-    }
 }
+
 
 // function remove( email ){
 //     return new Promise(( resolve, reject ) => {
