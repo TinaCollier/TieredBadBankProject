@@ -31,8 +31,8 @@ app.get( "/api", ( req, res ) => {
   } );
 
 // create user account
-app.post( '/user/create', jsonParser, ( req, res ) => {
-  dal.create( req.body.name, req.body.email, req.body.password ).then( ( user ) => {
+app.post( '/user/create', jsonParser, async ( req, res ) => {
+  await dal.create( req.body.name, req.body.email, req.body.password ).then( ( user ) => {
       res.send( user );
     } );
 } );
