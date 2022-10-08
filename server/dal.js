@@ -38,8 +38,7 @@ function create( name, email, password ) {
             console.warn( 'error trying to connect to Mongodb' ) 
             db = client.db( 'tieredbadbank' ) 
         } );
-        db.collection( 'Users' )
-        .insertOne( doc, { w:1 }, ( err, result ) => {
+        db.collection( 'Users' ).insertOne( doc, { w:1 }, ( err, result ) => {
             if ( err ) {
                 console.warn( 'there was an error', err );
                 reject( err );
