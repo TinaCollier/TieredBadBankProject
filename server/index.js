@@ -40,15 +40,13 @@ app.post( '/user/create', jsonParser, async ( req, res ) => {
 // find user account
 app.post( '/user/search', parser, async ( req, res ) => {
   const email = req.body.email;
-  await dal.findOne( email )
-  .then( ( user ) => {
-    if ( !user ){
-      res.status(404).send( 'User not found' );
-    } else {
-    res.send( user );
-    console.log( 'user', user )
-  }})
-  .catch( error => res.send( 'search error ', error));
+  const results = await dal.findOne( email )
+  if ( results ){
+    res.send( results );
+  } else {
+    res.send( 'user not found' );
+  }
+
 } );
 
 app.get( '/user/:email', jsonParser, async ( req, res ) => {
