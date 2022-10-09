@@ -41,13 +41,13 @@ const Form = () => {
       .then( response => response.json() )
       .then( data => {
         JSON.stringify(data);
-        setId( data.insertId);
+        console.log( 'data id', data.insertedId)
       } ); 
-      setName( values.name );
-      setEmail( values.email );
-      setPassword( values.password );
-      setTransactionHistory; 
-      setLoggedIn(true);
+      // setName( values.name );
+      // setEmail( values.email );
+      // setPassword( values.password );
+      // setTransactionHistory; 
+      // setLoggedIn(true);
   }
 
 
