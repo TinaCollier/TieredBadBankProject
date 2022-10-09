@@ -37,21 +37,21 @@ const Login = () => {
             } )
         };
 
-        await fetch( uri, requestOptions)
-        .then( response => response.json() )
-        .then( data => {
-            console.log( 'login data', JSON.stringify(data))
-            if ( userPassword === data.password ){
-                setId( data.id );
-                setName( data.name );
-                setEmail( data.email );
-                setBalance( data.balance );
-                setLoggedIn( true );
-                setUserEmail( '' );
-                setUserPassword( '' );
-                rerouteToSuccessfulLogin();
-            } 
-        })
+        const response = await fetch( uri, requestOptions)
+        const data = await response.json();
+        console.log( 'login data', data)
+        if ( userPassword === data.password ){
+            setId( data.id );
+            setName( data.name );
+            setEmail( data.email );
+            setBalance( data.balance );
+            setLoggedIn( true );
+            setUserEmail( '' );
+            setUserPassword( '' );
+            rerouteToSuccessfulLogin();
+        } else {
+            console.log('no worky')
+        }
     }
 
     const handleSubmit = ( event ) => {
