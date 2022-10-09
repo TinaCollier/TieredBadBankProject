@@ -40,8 +40,10 @@ const Login = () => {
         await fetch( uri, requestOptions)
         .then( async response => await response.json() )
         .then( data => {
-            console.log( 'login data', JSON.stringify(data))
-            if ( userPassword === data.password ){
+            if ( !data){
+                setInvalid( true );
+            }
+            else if ( userPassword === data.password ){
                 setId( data.id );
                 setName( data.name );
                 setEmail( data.email );
