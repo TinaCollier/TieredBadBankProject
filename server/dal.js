@@ -192,8 +192,9 @@ async function all(){
           }
         } );
     allData = await array;
-    return allData;
     console.log('alldata', allData )
+    return allData;
+
 }
 
 
