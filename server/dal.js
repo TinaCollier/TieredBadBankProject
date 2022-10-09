@@ -78,26 +78,21 @@ function find( email ){
 //     })
 // }
 
-async function findOne( email ) {
-    return await client.connect( async err => 
-        await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne( { email } )
-    );
+async function findOneByEmail( email ) {
+    const connection = await client.connect();
+    const db         = await connection.db( 'tieredbadbank' );
+    const collection = await db.collection( 'Users' );
+    const results    = await collection.findOne( { email } );
+
+    return results;
 }
 
-// async function findOne( email ){
-//     await client.connect( async err => {
-//         const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne({ email: email });
-//         if ( err ) {
-//             console.warn( 'there was an error connecting', err );
-//             return err;
-//         } else {   
-//             console.log( 'success finding user response', response );
-//             return response;
-//         }
-
-//         //client.close();
-//     } );
-// }
+async function findOne( email ){
+    return await client.connect( async err => {
+        const results = await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne({ email: email });
+        console.log( 'results from db', results );
+    } );
+}
 
 // update - deposit/withdraw amount
 // function update( email, amount ){
@@ -190,4 +185,4 @@ async function remove( email ){
     } )
 }
 
-module.exports = { create, findOne, find, findById, update, all, remove, mongoConnect };
+module.exports = { create, findOne, findOneByEmail, find, findById, update, all, remove, mongoConnect };
