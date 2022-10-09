@@ -177,6 +177,7 @@ async function update( email, amount ){
 // }
 
 async function all(){
+    let allData;
     const connection = await client.connect();
     const db         = await connection.db( 'tieredbadbank' );
     const collection = await db.collection( 'Users' );
@@ -190,9 +191,9 @@ async function all(){
             return result
           }
         } );
-    const allData = await array;
-    console.log( 'allData', allData)
+    allData = await array;
     return allData;
+    console.log('alldata', allData )
 }
 
 
