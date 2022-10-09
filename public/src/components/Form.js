@@ -40,11 +40,13 @@ const Form = () => {
     await fetch( uri, requestOptions)
       .then( response => response.json() )
       .then( data => {
-        console.log( data );
-        setId( data.id );
-        setName( data.name );
-        setEmail( data.email );
-        setPassword( data.password );
+        console.log( 'form data', data.insertId );
+        setId( data.insertId);
+        setName( values.name );
+        setEmail( values.email );
+        setPassword( values.password );
+        setBalance: 0;
+        setTransactionHistory;
       } );  
       setLoggedIn(true);
   }
