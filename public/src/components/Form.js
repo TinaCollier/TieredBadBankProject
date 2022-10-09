@@ -42,12 +42,12 @@ const Form = () => {
       .then( data => {
         console.log( 'form data', data.insertId );
         setId( data.insertId);
-        setName( values.name );
-        setEmail( values.email );
-        setPassword( values.password );
-        setBalance: 0;
-        setTransactionHistory;
-      } );  
+      } ); 
+      setName( values.name );
+      setEmail( values.email );
+      setPassword( values.password );
+      setBalance: 0;
+      setTransactionHistory; 
       setLoggedIn(true);
   }
 
