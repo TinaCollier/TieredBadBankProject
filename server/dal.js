@@ -188,6 +188,7 @@ async function all(){
             return result
           }
         } );
+    console.log( 'results', results )
     return results;
 }
 
