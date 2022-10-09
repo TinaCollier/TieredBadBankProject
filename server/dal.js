@@ -42,6 +42,7 @@ async function create( name, email, password ){
     } );
 }
 
+
 function findById( id ) {
     return new Promise(( resolve, reject ) => {    
         const customers = db
@@ -212,4 +213,4 @@ async function remove( email ){
     } )
 }
 
-module.exports = { create, findOne, findOne, find, findById, update, all, remove, mongoConnect };
+module.exports = { create, findOneByEmail, find, findById, update, all, remove, mongoConnect };
