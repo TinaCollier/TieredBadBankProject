@@ -40,10 +40,7 @@ const Login = () => {
         await fetch( uri, requestOptions)
         .then( async response => await response.json() )
         .then( data => {
-            if ( !data){
-                setInvalid( true );
-            }
-            else if ( userPassword === data.password ){
+            if ( userPassword === data.password ){
                 setId( data.id );
                 setName( data.name );
                 setEmail( data.email );

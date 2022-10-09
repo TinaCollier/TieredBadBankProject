@@ -40,7 +40,7 @@ app.post( '/user/create', jsonParser, async ( req, res ) => {
 // find user account
 app.post( '/user/search', parser, async ( req, res ) => {
   const email = req.body.email;
-  const results = await dal.findOneByEmail( email );
+  const results = await dal.findOneByEmail( email ) || 404;
   res.send( results );
 
 } );
