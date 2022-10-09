@@ -182,11 +182,12 @@ async function all(){
     const db         = await connection.db( 'tieredbadbank' );
     const collection = await db.collection( 'Users' );
     const results    = await collection
-    allData = await results.find( {} ).toArray( ( err, result ) => {
+    const array = await results.find( {} ).toArray( ( err, result ) => {
           if ( err ) {
             console.log('errrrrr', err );
           } else {
             console.log('resultssss', result );
+            allData = result;
           }
         } );
     console.log( 'alldata' , allData)
