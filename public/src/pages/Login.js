@@ -38,7 +38,7 @@ const Login = () => {
         };
 
         const response = await fetch( uri, requestOptions);
-        console.log( 'response', response );
+        console.log( 'response', response.json() );
         const data = await response.json();
         console.log( 'login data', data)
         if ( userPassword === data.password ){
