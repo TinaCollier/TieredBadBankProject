@@ -38,12 +38,17 @@ app.post( '/user/create', jsonParser, async ( req, res ) => {
 } );
 
 // find user account
-app.post( '/user/search', async ( req, res ) => {
+app.post( '/user/search', parser, async ( req, res ) => {
   const email = req.body.email;
-  await dal.findOne( email ).then( ( user ) => {
+  await dal.findOne( email )
+  .then( ( user ) => {
+    if ( !user ){
+      res.status(404).send( 'User not found' );
+    } else {
     res.send( user );
     console.log( 'user', user )
-  }).catch( error => res.send( 'search error ', error));
+  }})
+  .catch( error => res.send( 'search error ', error));
 } );
 
 app.get( '/user/:email', jsonParser, async ( req, res ) => {
