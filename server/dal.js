@@ -177,19 +177,16 @@ async function update( email, amount ){
 // }
 
 async function all(){
-    const connection = await client.connect();
-    const db         = await connection.db( 'tieredbadbank' );
-    const collection = await db.collection( 'Users' );
-    const results    = await collection.find( {} ).toArray( ( err, result ) => {
-          if ( err ) {
-            console.log('errrrrr', err );
-          } else {
-            console.log('resultssss', result );
-            return result
-          }
-        } );
-    console.log( 'results', results )
-    return results;
+    const connection   = await client.connect();
+    const db           = await connection.db( 'tieredbadbank' );
+    const collection   = await db.collection( 'Users' );
+    const results      = await collection.find( {} );
+    const resultsArray = await results.toArray();
+    
+    console.log( 'results', results );
+    console.log( 'resultsArray', resultsArray );
+
+    return resultsArray;
 }
 
 
