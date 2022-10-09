@@ -86,6 +86,7 @@ async function findOne( email ){
         } else {   
             console.log( 'success finding user response', response );
         }
+        return response;
         //client.close();
     } );
 }
