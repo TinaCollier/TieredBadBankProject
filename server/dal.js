@@ -190,6 +190,7 @@ async function all(){
             console.log( 'result', result);
         }
     });
+    console.log( 'alldata', allData)
     return allData;
 }
 
