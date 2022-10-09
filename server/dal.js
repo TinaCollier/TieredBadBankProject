@@ -29,7 +29,7 @@ async function mongoConnect(){
 }
 
 async function create( name, email, password ){
-    const doc = { name, email, password };
+    const doc = { name, email, password, balance: 0 };
     client.connect( async err => {
         const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).insertOne( doc, {w:1} );
         if ( err ) {
@@ -139,8 +139,8 @@ async function update( email, amount ){
         { email: email },
         { $set: { balance: amount } },
         { returnOriginal: false },
-        function (err, documents) {
-            err ? reject( err ) : resolve( documents );
+        async function (err, documents) {
+            err ? reject( err ) : await resolve( documents );
         });
     return results;
 }
@@ -182,10 +182,6 @@ async function all(){
     const collection   = await db.collection( 'Users' );
     const results      = await collection.find( {} );
     const resultsArray = await results.toArray();
-    
-    console.log( 'results', results );
-    console.log( 'resultsArray', resultsArray );
-
     return resultsArray;
 }
 
