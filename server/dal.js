@@ -79,7 +79,7 @@ function find( email ){
 // }
 
 async function findOne( email ){
-    client.connect( async err => {
+    await client.connect( async err => {
         const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne({ email: email });
         if ( err ) {
             console.warn( 'there was an error connecting', err );
