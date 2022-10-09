@@ -28,6 +28,7 @@ const Login = () => {
     }
 
     async function findAccount(){
+        console.log( 'finding account', userEmail )
         const uri = '/user/search';
         const requestOptions = {
             method: 'POST',
