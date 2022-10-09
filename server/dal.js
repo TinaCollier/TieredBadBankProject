@@ -44,6 +44,7 @@ async function mongoConnect(){
 
 async function create( name, email, password ){
     const doc = { name, email, password, balance: 0 };
+    console.log ('doc', doc)
     const connection = await client.connect();
     const db         = await connection.db( 'tieredbadbank' );
     const collection = await db.collection( 'Users' );
