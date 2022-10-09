@@ -67,7 +67,8 @@ app.put( '/updatebalance', parser, async ( req, res ) => {
 app.get( '/alldata', parser, async ( req, res ) => {
   var data = [];
   try {
-    data = await dal.all().then( ( data ) => {
+    data = await dal.all().then( ( data ) => { 
+      console.log('get alldata', data)
       res.send( data ); 
     })} catch (err) {
       res.send( { 'error': 111111 });
