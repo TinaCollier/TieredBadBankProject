@@ -187,7 +187,7 @@ async function all(){
             console.log('errrrrr', err );
           } else {
             console.log('resultssss', result );
-            allData = result;
+            return result
           }
         } );
     console.log( 'allData', allData)
