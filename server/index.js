@@ -42,6 +42,7 @@ app.post( '/user/search', async ( req, res ) => {
   const email = req.body.email;
   await dal.findOne( email ).then( ( user ) => {
     res.send( user );
+    console.log( 'user', user )
   }).catch( error => res.send( 'search error ', error));
 } );
 
