@@ -78,20 +78,26 @@ function find( email ){
 //     })
 // }
 
-async function findOne( email ){
-    await client.connect( async err => {
-        const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne({ email: email });
-        if ( err ) {
-            console.warn( 'there was an error connecting', err );
-            return err;
-        } else {   
-            console.log( 'success finding user response', response );
-            return response;
-        }
-
-        //client.close();
-    } );
+async function findOne( email ) {
+    return await client.connect( async err => 
+        await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne( { email } )
+    );
 }
+
+// async function findOne( email ){
+//     await client.connect( async err => {
+//         const response = await client.db( 'tieredbadbank' ).collection( 'Users' ).findOne({ email: email });
+//         if ( err ) {
+//             console.warn( 'there was an error connecting', err );
+//             return err;
+//         } else {   
+//             console.log( 'success finding user response', response );
+//             return response;
+//         }
+
+//         //client.close();
+//     } );
+// }
 
 // update - deposit/withdraw amount
 // function update( email, amount ){
