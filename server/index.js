@@ -40,9 +40,7 @@ app.post( '/user/create', jsonParser, async ( req, res ) => {
 // find user account
 app.post( '/user/search', parser, async ( req, res ) => {
   const email = req.body.email;
-  
   const results = await dal.findOneByEmail( email ) || 'nothing returned by findOneByEmail';
-  console.log( 'results', results );
   res.send( results );
 
 } );
@@ -58,8 +56,8 @@ app.get( '/user/:email', jsonParser, async ( req, res ) => {
 app.put( '/updatebalance', parser, async ( req, res ) => {
   const email = req.body.email;
   const amount = req.body.amount;
-  await dal.update( email, amount ).then( ( amount )  => {
-    res.send( amount );
+  await dal.update( email, amount ).then( async ( amount )  => {
+    await res.send( amount );
   }).catch( error => res.send( error.message ));
 } );
 
