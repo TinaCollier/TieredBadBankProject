@@ -42,9 +42,9 @@ app.post( '/user/search', parser, async ( req, res ) => {
   const email = req.body.email;
   const results = await dal.findOne( email )
   if ( results ){
-    res.send( results );
+    res.send( JSON.stringify(results) );
   } else {
-    res.send( 'user not found' );
+    res.status( 404 ).send( 'user not found' );
   }
 
 } );
