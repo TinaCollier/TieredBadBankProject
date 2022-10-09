@@ -40,7 +40,7 @@ const Form = () => {
     await fetch( uri, requestOptions)
       .then( response => response.json() )
       .then( data => {
-        console.log( 'form data', data.insertId );
+        console.log( 'form data', data );
         // setId( data.insertId);
       } ); 
       // setName( values.name );
