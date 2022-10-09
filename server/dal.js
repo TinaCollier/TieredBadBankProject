@@ -39,9 +39,17 @@ async function create( name, email, password ){
             console.log( 'success adding user response', response );
         }
         //client.close();
-    } );
+    }
 }
 
+async function create( name, email, password ){
+    const doc = { name, email, password, balance: 0 };
+    const connection = await client.connect();
+    const db         = await connection.db( 'tieredbadbank' );
+    const collection = await db.collection( 'Users' );
+    const results    = await collection.insertOne( doc, { w:1 } );
+    return results;
+}
 
 // function findById( id ) {
 //     return new Promise(( resolve, reject ) => {    
