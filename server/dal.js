@@ -178,13 +178,15 @@ async function update( email, amount ){
 
 async function all(){
     let allData;
-    await client.connect(err => {
-        client.db("tieredbadbank").collection("Users").find( {} ).toArray( ( err, result ) => {
+    const connection = await client.connect();
+    const db         = await connection.db( 'tieredbadbank' );
+    const collection = await db.collection( 'Users' );
+    const results    = await collection
+    allData = await results.find( {} ).toArray( ( err, result ) => {
           if ( err ) {
             console.log('errrrrr', err );
           } else {
             console.log('resultssss', result );
-            allData = result;
           }
         } );
     console.log( 'alldata' , allData)
