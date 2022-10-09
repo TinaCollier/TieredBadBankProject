@@ -183,7 +183,7 @@ async function all(){
     const collection = await db.collection( 'Users' );
     const results    = await collection
     const list = await results.find( {} )
-    const array = await list.toArray( ( err, result ) => {
+    return await list.toArray( ( err, result ) => {
           if ( err ) {
             console.log('errrrrr', err );
           } else {
@@ -191,9 +191,6 @@ async function all(){
             return result
           }
         } );
-    allData = await array;
-    console.log('alldata', allData )
-    return allData;
 
 }
 
