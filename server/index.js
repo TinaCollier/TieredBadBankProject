@@ -39,6 +39,7 @@ app.post( '/user/create', jsonParser, async ( req, res ) => {
 
 // find user account
 app.post( '/user/search', parser, async ( req, res ) => {
+  console.log( 'running search' );
   const email = req.body.email;
   console.log( 'email', email )
   await dal.findOne( email ).then( ( user ) => {
