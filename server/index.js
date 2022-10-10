@@ -45,13 +45,6 @@ app.post( '/user/search', parser, async ( req, res ) => {
 
 } );
 
-app.get( '/user/:email', jsonParser, async ( req, res ) => {
-  const email = req.params.email;
-  await dal.findById( email ).then( ( user ) => {
-    res.send( user );
-  } );
-} );
-
 // update - deposit/withdraw amount
 app.put( '/updatebalance', parser, async ( req, res ) => {
   const email = req.body.email;

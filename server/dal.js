@@ -8,19 +8,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 let db;
 
-async function mongoConnect(){
-    try {
-        await client.connect().then( async () => {
-            console.log( 'connected to mongo server at ' + uri );
-            db = await client.db("tieredbadbank");
-        });
-    } catch (error) {
-        console.warn( 'error connecting to mongo server at ' + uri );
-        console.warn( 'error: ', error )
-    }
-}
-
-
+// create an account
 async function create( name, email, password ){
     const doc = { name, email, password, balance: 0 };
     console.log ('doc', doc)
@@ -31,6 +19,8 @@ async function create( name, email, password ){
     return results;
 }
 
+
+// find account by email
 async function findOneByEmail( email ) {
     const connection = await client.connect();
     const db         = await connection.db( 'tieredbadbank' );
@@ -40,6 +30,8 @@ async function findOneByEmail( email ) {
     return results;
 }
 
+
+// update account balance
 async function update( email, amount ){
     const connection = await client.connect();
     const db         = await connection.db( 'tieredbadbank' );
@@ -51,6 +43,8 @@ async function update( email, amount ){
     return results;
 }
 
+
+// return all accounts
 async function all(){
     const connection   = await client.connect();
     const db           = await connection.db( 'tieredbadbank' );
@@ -60,6 +54,7 @@ async function all(){
     return resultsArray;
 }
 
+// delete an account
 async function remove( email ){
     const connection   = await client.connect();
     const db           = await connection.db( 'tieredbadbank' );
@@ -68,4 +63,4 @@ async function remove( email ){
     return results;
 }
 
-module.exports = { create, findOneByEmail, update, all, remove, mongoConnect };
+module.exports = { create, findOneByEmail, update, all, remove };

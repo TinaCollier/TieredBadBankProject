@@ -20,7 +20,6 @@ import Success from './pages/Success';
 import NewsPage from './pages/NewsPage';
 import Login from './pages/Login';
 import SuccessfulLogin from './pages/SuccessfulLogin';
-import UserContext from './components/UserContext';
 import githubicon from './pages/images/githubicon.png';
 import linkedinicon from './pages/images/linkedinicon.png';
 import emailicon from './pages/images/emailicon.png'
@@ -30,15 +29,6 @@ import AppProvider from './components/AppProvider';
 
 
 function App() {
-  
-
-  const [data, setData] = React.useState(null);
-
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
 
   return (
     <AppProvider>
@@ -63,7 +53,6 @@ function App() {
             </Routes>
           </HashRouter>
         </div>
-        <p>{!data ? "Loading..." : data}</p>
         <footer className="text-center text-md-right">
           <List type="inline">
             <ListInlineItem>
